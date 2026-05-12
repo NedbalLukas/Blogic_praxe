@@ -6,7 +6,11 @@ import { listing } from "@/db/schemas";
 export async function GET(_: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
 
-  const item = db.select().from(listing).where(eq(listing.id, Number(id))).get();
+  const item = db
+    .select()
+    .from(listing)
+    .where(eq(listing.id, Number(id)))
+    .get();
 
   if (!item) {
     return Response.json({ error: "Inzerát nenalezen" }, { status: 404 });

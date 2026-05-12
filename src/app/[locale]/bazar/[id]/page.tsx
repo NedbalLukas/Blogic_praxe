@@ -1,6 +1,20 @@
 "use client";
 
-import {Alert,Badge,Button,Card,Container,Divider,Group,Select,SimpleGrid,Stack,Text,ThemeIcon,Title,} from "@mantine/core";
+import {
+  Alert,
+  Badge,
+  Button,
+  Card,
+  Container,
+  Divider,
+  Group,
+  Select,
+  SimpleGrid,
+  Stack,
+  Text,
+  ThemeIcon,
+  Title,
+} from "@mantine/core";
 import { IconAlertCircle, IconCash, IconCheck, IconMail, IconTag } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import type { Listing } from "@/db/schemas";
@@ -105,7 +119,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
             {/* Popis */}
             <Stack gap={4}>
-              <Text fw={500} size="sm" c="dimmed">POPIS</Text>
+              <Text fw={500} size="sm" c="dimmed">
+                POPIS
+              </Text>
               <Text size="md" lh={1.8}>
                 {item.description}
               </Text>
@@ -121,7 +137,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     <IconMail size={20} />
                   </ThemeIcon>
                   <Stack gap={0}>
-                    <Text size="xs" c="dimmed">Kontakt</Text>
+                    <Text size="xs" c="dimmed">
+                      Kontakt
+                    </Text>
                     <Text fw={500}>{item.contact}</Text>
                   </Stack>
                 </Group>
@@ -133,7 +151,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     <IconTag size={20} />
                   </ThemeIcon>
                   <Stack gap={0}>
-                    <Text size="xs" c="dimmed">Kategorie</Text>
+                    <Text size="xs" c="dimmed">
+                      Kategorie
+                    </Text>
                     <Text fw={500}>{item.category}</Text>
                   </Stack>
                 </Group>
@@ -145,7 +165,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     <IconCash size={20} />
                   </ThemeIcon>
                   <Stack gap={0}>
-                    <Text size="xs" c="dimmed">Cena</Text>
+                    <Text size="xs" c="dimmed">
+                      Cena
+                    </Text>
                     <Text fw={500} c="#FF5500">
                       {item.isFree ? "Zdarma" : `${item.price} Kč`}
                     </Text>

@@ -32,7 +32,6 @@ export default function Page() {
   return (
     <Container size="lg" mt={60} mb={60}>
       <Stack gap="xl">
-
         {/* Seznam inzerátů */}
         <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }} spacing="lg">
           {listings.map((item) => (

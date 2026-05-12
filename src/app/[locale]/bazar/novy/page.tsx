@@ -1,6 +1,20 @@
 "use client";
 
-import {Button,Checkbox,Container,Group,NumberInput,Paper,Select,Stack,Switch,Text,Textarea,TextInput,Title,} from "@mantine/core";
+import {
+  Button,
+  Checkbox,
+  Container,
+  Group,
+  NumberInput,
+  Paper,
+  Select,
+  Stack,
+  Switch,
+  Text,
+  Textarea,
+  TextInput,
+  Title,
+} from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useRouter } from "@/i18n/navigation";
 
@@ -114,13 +128,7 @@ export default function Page() {
               />
 
               <Group justify="flex-end">
-                <Button
-                  variant="subtle"
-                  color="gray"
-                  size="md"
-                  radius="md"
-                  onClick={() => router.push("/bazar")}
-                >
+                <Button variant="subtle" color="gray" size="md" radius="md" onClick={() => router.push("/bazar")}>
                   Zrušit
                 </Button>
                 <Button type="submit" color="#FF5500" size="md" radius="md">
