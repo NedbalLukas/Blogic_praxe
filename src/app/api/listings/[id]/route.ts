@@ -1,12 +1,16 @@
+import { eq } from "drizzle-orm";
 import { db } from "@/db";
 import { listing } from "@/db/schemas";
-import { eq } from "drizzle-orm";
 
 export async function GET(_: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
 
-    const item = db.select().from(listing).where(eq(listing.id, Number(id))).get();
+    const item = db
+      .select()
+      .from(listing)
+      .where(eq(listing.id, Number(id)))
+      .get();
 
     if (!item) {
       return Response.json({ error: "Inzerát nenalezen" }, { status: 404 });

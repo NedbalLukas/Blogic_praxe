@@ -1,7 +1,18 @@
 "use client";
 
 import {
-  Button,Checkbox,Container,Group,NumberInput,Paper,Select,Stack,Text,Textarea,TextInput,Title,
+  Button,
+  Checkbox,
+  Container,
+  Group,
+  NumberInput,
+  Paper,
+  Select,
+  Stack,
+  Text,
+  Textarea,
+  TextInput,
+  Title,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useRouter } from "@/i18n/navigation";
@@ -21,11 +32,11 @@ export default function Page() {
       contact: "",
     },
     validate: {
-      title: (v) => v.trim().length === 0 ? "Název je povinný" : null,
-      description: (v) => v.trim().length === 0 ? "Popis je povinný" : null,
-      category: (v) => v.trim().length === 0 ? "Kategorie je povinná" : null,
-      contact: (v) => v.trim().length === 0 ? "Kontakt je povinný" : null,
-      price: (v, values) => !values.isFree && v <= 0 ? "Zadej cenu nebo označ jako zdarma" : null,
+      title: (v) => (v.trim().length === 0 ? "Název je povinný" : null),
+      description: (v) => (v.trim().length === 0 ? "Popis je povinný" : null),
+      category: (v) => (v.trim().length === 0 ? "Kategorie je povinná" : null),
+      contact: (v) => (v.trim().length === 0 ? "Kontakt je povinný" : null),
+      price: (v, values) => (!values.isFree && v <= 0 ? "Zadej cenu nebo označ jako zdarma" : null),
     },
   });
   const handleSubmit = async (values: typeof form.values) => {
@@ -83,10 +94,7 @@ export default function Page() {
                 data={CATEGORIES}
                 {...form.getInputProps("category")}
               />
-              <Checkbox
-                label="Nabízím zdarma"
-                {...form.getInputProps("isFree", { type: "checkbox" })}
-              />
+              <Checkbox label="Nabízím zdarma" {...form.getInputProps("isFree", { type: "checkbox" })} />
               {!form.values.isFree && (
                 <NumberInput
                   label="Cena (Kč)"
@@ -106,20 +114,11 @@ export default function Page() {
                 {...form.getInputProps("contact")}
               />
               <Group justify="flex-end">
-                <Button
-                  variant="subtle"
-                  color="gray"
-                  size="md"
-                  radius="md"
-                  onClick={() => router.push("/bazar")}
-                >Zrušit
+                <Button variant="subtle" color="gray" size="md" radius="md" onClick={() => router.push("/bazar")}>
+                  Zrušit
                 </Button>
-                <Button
-                  type="submit"
-                  color="#FF5500"
-                  size="md"
-                  radius="md"
-                >Zveřejnit inzerát
+                <Button type="submit" color="#FF5500" size="md" radius="md">
+                  Zveřejnit inzerát
                 </Button>
               </Group>
             </Stack>

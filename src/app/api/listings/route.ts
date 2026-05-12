@@ -1,6 +1,6 @@
+import type { InferInsertModel } from "drizzle-orm";
 import { db } from "@/db";
 import { listing } from "@/db/schemas";
-import type { InferInsertModel } from "drizzle-orm";
 
 type NewListing = InferInsertModel<typeof listing>;
 

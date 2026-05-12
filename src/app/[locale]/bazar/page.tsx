@@ -1,19 +1,15 @@
 "use client";
 
-import { 
-  Badge, Button, Card, Container, Group, SimpleGrid, Stack, Text, Title } from "@mantine/core";
+import { Badge, Button, Card, Container, Group, SimpleGrid, Stack, Text, Title } from "@mantine/core";
 import { useEffect, useState } from "react";
-import { Link } from "@/i18n/navigation";
 import type { Listing } from "@/db/schemas";
-
+import { Link } from "@/i18n/navigation";
 
 const STATUS_LABEL: Record<string, string> = {
   available: "Dostupné",
   reserved: "Rezervováno",
   sold: "Prodáno",
 };
-
-
 
 const STATUS_COLOR: Record<string, string> = {
   available: "green",

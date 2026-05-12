@@ -1,17 +1,6 @@
 "use client";
 
-import {
-  AppShell,
-  Burger,
-  Button,
-  Container,
-  Drawer,
-  Group,
-  Stack,
-  Text,
-  Divider,
-  Anchor
-} from "@mantine/core";
+import { Anchor, AppShell, Burger, Button, Container, Divider, Drawer, Group, Stack, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import type { PropsWithChildren } from "react";
 import { PageLogo } from "@/components/layout/PageLogo";
@@ -25,38 +14,17 @@ export function PageLayout({ children }: PropsWithChildren) {
 
   return (
     <AppShell header={{ height: HEADER_HEIGHT }} padding="md" withBorder={false}>
-
       <Drawer opened={opened} onClose={close} title="Navigace" size="xs">
         <Stack gap="sm">
-          <Button
-            component={Link}
-            href="/"
-            variant="subtle"
-            color="#FF5500"
-            onClick={close}
-            fullWidth
-          >
+          <Button component={Link} href="/" variant="subtle" color="#FF5500" onClick={close} fullWidth>
             Domů
           </Button>
 
-          <Button
-            component={Link}
-            href="/bazar"
-            variant="subtle"
-            color="#FF5500"
-            onClick={close}
-            fullWidth
-          >
+          <Button component={Link} href="/bazar" variant="subtle" color="#FF5500" onClick={close} fullWidth>
             Bazar
           </Button>
 
-          <Button
-            component={Link}
-            href="/bazar/novy"
-            color="#FF5500"
-            onClick={close}
-            fullWidth
-          >
+          <Button component={Link} href="/bazar/novy" color="#FF5500" onClick={close} fullWidth>
             + Nový inzerát
           </Button>
         </Stack>
@@ -69,29 +37,15 @@ export function PageLayout({ children }: PropsWithChildren) {
             <PageLogo />
 
             <Group gap="sm" visibleFrom="sm">
-              <Button
-                component={Link}
-                href="/"
-                color="#FF5500"
-                variant="subtle"
-              >
+              <Button component={Link} href="/" color="#FF5500" variant="subtle">
                 Domů
               </Button>
 
-              <Button
-                component={Link}
-                href="/bazar"
-                color="#FF5500"
-                variant="subtle"
-              >
+              <Button component={Link} href="/bazar" color="#FF5500" variant="subtle">
                 Bazar
               </Button>
 
-              <Button
-                component={Link}
-                href="/bazar/novy"
-                color="#FF5500"
-              >
+              <Button component={Link} href="/bazar/novy" color="#FF5500">
                 + Nový inzerát
               </Button>
             </Group>
@@ -111,17 +65,17 @@ export function PageLayout({ children }: PropsWithChildren) {
           <Divider mb="xl" />
 
           <Group justify="space-between" align="flex-start" pb="xl" wrap="wrap" gap="xl">
-
             <Stack gap="xs" maw={300}>
               <PageLogo />
               <Text size="sm" c="dimmed" mt="xs">
-                Interní bazar pro spolupracovníky Blogic.
-                Nabídni věci k prodeji nebo k přenechání zdarma.
+                Interní bazar pro spolupracovníky Blogic. Nabídni věci k prodeji nebo k přenechání zdarma.
               </Text>
             </Stack>
 
             <Stack gap="xs">
-              <Text fw={500} mb="xs">Navigace</Text>
+              <Text fw={500} mb="xs">
+                Navigace
+              </Text>
 
               <Anchor component={Link} href="/" c="dimmed" size="sm">
                 Domů
@@ -137,13 +91,16 @@ export function PageLayout({ children }: PropsWithChildren) {
             </Stack>
 
             <Stack gap="xs">
-              <Text fw={500} mb="xs">Kontakt</Text>
-              <Text size="sm" c="dimmed">Blogic s.r.o.</Text>
+              <Text fw={500} mb="xs">
+                Kontakt
+              </Text>
+              <Text size="sm" c="dimmed">
+                Blogic s.r.o.
+              </Text>
               <Anchor href="mailto:info@blogic.cz" c="dimmed" size="sm">
                 info@blogic.cz
               </Anchor>
             </Stack>
-
           </Group>
         </Container>
       </AppShell.Main>

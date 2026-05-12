@@ -8,7 +8,7 @@ export type Inzerat = {
   kontakt: string;
 };
 
-export let inzeraty: Inzerat[] = [
+export const inzeraty: Inzerat[] = [
   {
     id: 1,
     nazev: "Dětská jídelní židle",
