@@ -1,7 +1,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import type { SystemSettingsResponse } from "@/app/api/system-settings/route";
+import type { SystemSettingsResponse } from "@/app/api/route";
 import { QUERY_KEY } from "@/types/query";
 
 const REFRESH_INTERVAL_MILLISECONDS = 15 * 1000;

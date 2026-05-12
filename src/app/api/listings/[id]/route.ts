@@ -1,0 +1,39 @@
+import { db } from "@/db";
+import { listing } from "@/db/schemas";
+import { eq } from "drizzle-orm";
+
+export async function GET(_: Request, { params }: { params: Promise<{ id: string }> }) {
+  try {
+    const { id } = await params;
+
+    const item = db.select().from(listing).where(eq(listing.id, Number(id))).get();
+
+    if (!item) {
+      return Response.json({ error: "Inzerát nenalezen" }, { status: 404 });
+    }
+
+    return Response.json(item);
+  } catch (error) {
+    console.error("GET error:", error);
+    return Response.json({ error: String(error) }, { status: 500 });
+  }
+}
+
+export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  try {
+    const { id } = await params;
+    const body = await request.json();
+
+    const updated = db
+      .update(listing)
+      .set({ status: body.status })
+      .where(eq(listing.id, Number(id)))
+      .returning()
+      .get();
+
+    return Response.json(updated);
+  } catch (error) {
+    console.error("PATCH error:", error);
+    return Response.json({ error: String(error) }, { status: 500 });
+  }
+}
