@@ -1,27 +1,16 @@
 "use client";
 
-import {
-  Button,
-  Checkbox,
-  Container,
-  Group,
-  NumberInput,
-  Paper,
-  Select,
-  Stack,
-  Text,
-  Textarea,
-  TextInput,
-  Title,
-} from "@mantine/core";
+import {Button,Checkbox,Container,Group,NumberInput,Paper,Select,Stack,Switch,Text,Textarea,TextInput,Title,} from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useRouter } from "@/i18n/navigation";
 
+// Dostupné kategorie inzerátů
 const CATEGORIES = ["Nábytek", "Dětské věci", "Oblečení", "Elektronika", "Knihy", "Ostatní"];
 
 export default function Page() {
   const router = useRouter();
 
+  // Formulář s počátečními hodnotami a validací
   const form = useForm({
     initialValues: {
       title: "",
@@ -39,21 +28,20 @@ export default function Page() {
       price: (v, values) => (!values.isFree && v <= 0 ? "Zadej cenu nebo označ jako zdarma" : null),
     },
   });
+
+  // Odešli formulář do API a přesměruj na přehled
   const handleSubmit = async (values: typeof form.values) => {
-    console.log("odesílám:", values);
     const response = await fetch("/api/listings", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(values),
     });
-    console.log("status:", response.status);
-    const data = await response.json();
-    console.log("odpověď:", data);
 
     if (response.ok) {
       router.push("/bazar");
     }
   };
+
   return (
     <Container size="md" mt={60} mb={60}>
       <Stack gap="xl">
@@ -65,6 +53,7 @@ export default function Page() {
             Vyplň údaje o věci, kterou chceš prodat nebo darovat.
           </Text>
         </Stack>
+
         <Paper withBorder radius="xl" p="xl">
           <form onSubmit={form.onSubmit(handleSubmit)}>
             <Stack gap="lg">
@@ -76,6 +65,7 @@ export default function Page() {
                 required
                 {...form.getInputProps("title")}
               />
+
               <Textarea
                 label="Popis"
                 placeholder="Popiš stav, vlastnosti nebo důvod prodeje..."
@@ -85,6 +75,7 @@ export default function Page() {
                 required
                 {...form.getInputProps("description")}
               />
+
               <Select
                 label="Kategorie"
                 placeholder="Vyber kategorii"
@@ -94,17 +85,25 @@ export default function Page() {
                 data={CATEGORIES}
                 {...form.getInputProps("category")}
               />
-              <Checkbox label="Nabízím zdarma" {...form.getInputProps("isFree", { type: "checkbox" })} />
-              {!form.values.isFree && (
-                <NumberInput
-                  label="Cena (Kč)"
-                  placeholder="0"
-                  size="md"
-                  radius="md"
-                  min={0}
-                  {...form.getInputProps("price")}
-                />
-              )}
+
+              {/* Cena se zobrazí jen když není zdarma */}
+              <NumberInput
+                label="Cena (Kč)"
+                placeholder="0"
+                size="md"
+                radius="md"
+                min={0}
+                disabled={form.values.isFree}
+                {...form.getInputProps("price")}
+              />
+
+              <Switch
+                color="#FF5500"
+                label="Nabízím zdarma"
+                size="md"
+                {...form.getInputProps("isFree", { type: "checkbox" })}
+              />
+
               <TextInput
                 label="Kontakt"
                 placeholder="Např. jan.novak@blogic.cz"
@@ -113,8 +112,15 @@ export default function Page() {
                 required
                 {...form.getInputProps("contact")}
               />
+
               <Group justify="flex-end">
-                <Button variant="subtle" color="gray" size="md" radius="md" onClick={() => router.push("/bazar")}>
+                <Button
+                  variant="subtle"
+                  color="gray"
+                  size="md"
+                  radius="md"
+                  onClick={() => router.push("/bazar")}
+                >
                   Zrušit
                 </Button>
                 <Button type="submit" color="#FF5500" size="md" radius="md">

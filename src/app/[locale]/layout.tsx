@@ -8,10 +8,7 @@ import { routing } from "@/i18n/routing";
 
 export default async function LocaleLayout({ children, params }: LayoutProps<"/[locale]">) {
   const { locale } = await params;
-
-  if (!hasLocale(routing.locales, locale)) {
-    notFound();
-  }
+  if (!hasLocale(routing.locales, locale)) notFound();
 
   return (
     <NextIntlClientProvider>

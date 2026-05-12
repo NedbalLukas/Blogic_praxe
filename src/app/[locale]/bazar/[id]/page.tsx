@@ -1,25 +1,12 @@
 "use client";
 
-import {
-  Alert,
-  Badge,
-  Button,
-  Card,
-  Container,
-  Divider,
-  Group,
-  Select,
-  SimpleGrid,
-  Stack,
-  Text,
-  ThemeIcon,
-  Title,
-} from "@mantine/core";
+import {Alert,Badge,Button,Card,Container,Divider,Group,Select,SimpleGrid,Stack,Text,ThemeIcon,Title,} from "@mantine/core";
 import { IconAlertCircle, IconCash, IconCheck, IconMail, IconTag } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import type { Listing } from "@/db/schemas";
-import { Link, useRouter } from "@/i18n/navigation";
+import { Link } from "@/i18n/navigation";
 
+// Texty a barvy pro stavy inzerátu
 const STATUS_LABEL: Record<string, string> = {
   available: "Dostupné",
   reserved: "Rezervováno",
@@ -33,16 +20,14 @@ const STATUS_COLOR: Record<string, string> = {
 };
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
-  const router = useRouter();
   const [item, setItem] = useState<Listing | null>(null);
-  const [status, setStatus] = useState<string>("");
-  const [loading, setLoading] = useState(true);
+  const [status, setStatus] = useState("");
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState(false);
 
+  // Načti inzerát podle ID z URL
   useEffect(() => {
     params.then(({ id }) => {
-      console.log("id:", id);
       fetch(`/api/listings/${id}`)
         .then((res) => {
           if (!res.ok) throw new Error();
@@ -51,15 +36,12 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         .then((data) => {
           setItem(data);
           setStatus(data.status);
-          setLoading(false);
         })
-        .catch(() => {
-          setError(true);
-          setLoading(false);
-        });
+        .catch(() => setError(true));
     });
   }, [params]);
 
+  // Ulož nový stav inzerátu do databáze
   const handleStatusChange = async (newStatus: string | null) => {
     if (!newStatus || !item) return;
 
@@ -76,14 +58,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     }
   };
 
-  if (loading) {
-    return (
-      <Container size="md" mt={60}>
-        <Text c="dimmed">Načítání...</Text>
-      </Container>
-    );
-  }
-
+  // Zobraz chybu pokud inzerát neexistuje
   if (error || !item) {
     return (
       <Container size="md" mt={60}>
@@ -106,6 +81,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
         <Card shadow="sm" padding="xl" radius="xl" withBorder>
           <Stack gap="lg">
+            {/* Stav a kategorie */}
             <Group justify="space-between">
               <Badge color={STATUS_COLOR[status]} variant="light" size="lg">
                 {STATUS_LABEL[status]}
@@ -115,6 +91,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               </Badge>
             </Group>
 
+            {/* Název a cena */}
             <Stack gap={4}>
               <Title order={1} fw={800}>
                 {item.title}
@@ -126,10 +103,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
             <Divider />
 
+            {/* Popis */}
             <Stack gap={4}>
-              <Text fw={500} size="sm" c="dimmed">
-                POPIS
-              </Text>
+              <Text fw={500} size="sm" c="dimmed">POPIS</Text>
               <Text size="md" lh={1.8}>
                 {item.description}
               </Text>
@@ -137,6 +113,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
             <Divider />
 
+            {/* Kontakt, kategorie, cena */}
             <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
               <Card withBorder radius="md" padding="md">
                 <Group gap="sm">
@@ -144,9 +121,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     <IconMail size={20} />
                   </ThemeIcon>
                   <Stack gap={0}>
-                    <Text size="xs" c="dimmed">
-                      Kontakt
-                    </Text>
+                    <Text size="xs" c="dimmed">Kontakt</Text>
                     <Text fw={500}>{item.contact}</Text>
                   </Stack>
                 </Group>
@@ -158,9 +133,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     <IconTag size={20} />
                   </ThemeIcon>
                   <Stack gap={0}>
-                    <Text size="xs" c="dimmed">
-                      Kategorie
-                    </Text>
+                    <Text size="xs" c="dimmed">Kategorie</Text>
                     <Text fw={500}>{item.category}</Text>
                   </Stack>
                 </Group>
@@ -172,9 +145,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     <IconCash size={20} />
                   </ThemeIcon>
                   <Stack gap={0}>
-                    <Text size="xs" c="dimmed">
-                      Cena
-                    </Text>
+                    <Text size="xs" c="dimmed">Cena</Text>
                     <Text fw={500} c="#FF5500">
                       {item.isFree ? "Zdarma" : `${item.price} Kč`}
                     </Text>
@@ -185,6 +156,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
             <Divider />
 
+            {/* Změna stavu inzerátu */}
             <Stack gap="xs">
               <Text fw={500}>Změnit stav inzerátu</Text>
               <Select
