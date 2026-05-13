@@ -75,7 +75,9 @@ export default function Page() {
       <Stack gap="lg">
         {/* Filtr podle kategorie */}
         <Stack gap="xs" className="anim anim-1">
-          <Text size="sm" c="dimmed" fw={500}>Kategorie</Text>
+          <Text size="sm" c="dimmed" fw={500}>
+            Kategorie
+          </Text>
           <Group gap="sm" wrap="wrap">
             {CATEGORIES.map((cat) => (
               <Button

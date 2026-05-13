@@ -10,7 +10,6 @@ export const metadata: Metadata = {
 export default async function Page(_: PageProps<"/[locale]">) {
   return (
     <Container size="lg" mt={80}>
-
       <style>{`
         @keyframes pageIn {
           from { opacity: 0; transform: translateY(24px); }
@@ -48,7 +47,9 @@ export default async function Page(_: PageProps<"/[locale]">) {
                 <IconShoppingBag size={28} />
               </ThemeIcon>
               <Stack gap={4}>
-                <Title order={4} size={30}>Prodej věci</Title>
+                <Title order={4} size={30}>
+                  Prodej věci
+                </Title>
                 <Text size="md" c="dimmed" lh={1.6}>
                   Nabídni elektroniku, příslušenství nebo jiné věci, které už nevyužiješ.
                 </Text>
@@ -62,7 +63,9 @@ export default async function Page(_: PageProps<"/[locale]">) {
                 <IconGift size={28} />
               </ThemeIcon>
               <Stack gap={4}>
-                <Title order={4} size={30}>Dej zdarma</Title>
+                <Title order={4} size={30}>
+                  Dej zdarma
+                </Title>
                 <Text size="md" c="dimmed" lh={1.6}>
                   Nepotřebné věci nemusí skončit v šuplíku. Daruj je kolegům zdarma.
                 </Text>
@@ -76,7 +79,9 @@ export default async function Page(_: PageProps<"/[locale]">) {
                 <IconSearch size={28} />
               </ThemeIcon>
               <Stack gap={4}>
-                <Title order={4} size={30}>Hledej</Title>
+                <Title order={4} size={30}>
+                  Hledej
+                </Title>
                 <Text size="md" c="dimmed" lh={1.6}>
                   Projdi nabídky kolegů a najdi techniku, kterou právě hledáš.
                 </Text>
