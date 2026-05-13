@@ -1,30 +1,16 @@
 "use client";
 
 import {
-  Button,
-  Checkbox,
-  Container,
-  Group,
-  NumberInput,
-  Paper,
-  Select,
-  Stack,
-  Switch,
-  Text,
-  Textarea,
-  TextInput,
-  Title,
+  Button, Container, Group, NumberInput, Paper, Select, Stack, Switch, Text, Textarea, TextInput, Title,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useRouter } from "@/i18n/navigation";
 
-// Dostupné kategorie inzerátů
 const CATEGORIES = ["Nábytek", "Dětské věci", "Oblečení", "Elektronika", "Knihy", "Ostatní"];
 
 export default function Page() {
   const router = useRouter();
 
-  // Formulář s počátečními hodnotami a validací
   const form = useForm({
     initialValues: {
       title: "",
@@ -43,7 +29,6 @@ export default function Page() {
     },
   });
 
-  // Odešli formulář do API a přesměruj na přehled
   const handleSubmit = async (values: typeof form.values) => {
     const response = await fetch("/api/listings", {
       method: "POST",
@@ -58,8 +43,21 @@ export default function Page() {
 
   return (
     <Container size="md" mt={60} mb={60}>
+      <style>{`
+        @keyframes pageIn {
+          from { opacity: 0; transform: translateY(24px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        .anim {
+          opacity: 0;
+          animation: pageIn 0.5s ease forwards;
+        }
+        .anim-1 { animation-delay: 0.05s; }
+        .anim-2 { animation-delay: 0.2s; }
+      `}</style>
+
       <Stack gap="xl">
-        <Stack gap={4}>
+        <Stack gap={4} className="anim anim-1">
           <Title order={1} fw={800}>
             Nový <span style={{ color: "#FF5500" }}>inzerát</span>
           </Title>
@@ -68,7 +66,7 @@ export default function Page() {
           </Text>
         </Stack>
 
-        <Paper withBorder radius="xl" p="xl">
+        <Paper withBorder radius="xl" p="xl" className="anim anim-2">
           <form onSubmit={form.onSubmit(handleSubmit)}>
             <Stack gap="lg">
               <TextInput
@@ -100,13 +98,11 @@ export default function Page() {
                 {...form.getInputProps("category")}
               />
 
-              {/* Cena se zobrazí jen když není zdarma */}
               <NumberInput
                 label="Cena (Kč)"
                 placeholder="0"
                 size="md"
                 radius="md"
-                min={0}
                 disabled={form.values.isFree}
                 {...form.getInputProps("price")}
               />
