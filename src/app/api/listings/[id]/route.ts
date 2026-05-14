@@ -1,9 +1,11 @@
-import { eq } from "drizzle-orm";
 import { db } from "@/db";
 import { listing } from "@/db/schemas";
+import { eq } from "drizzle-orm";
 
-// Načti jeden inzerát podle ID
-export async function GET(_: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function GET(
+  _req: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
   const { id } = await params;
 
   const item = db
@@ -12,17 +14,16 @@ export async function GET(_: Request, { params }: { params: Promise<{ id: string
     .where(eq(listing.id, Number(id)))
     .get();
 
-  if (!item) {
-    return Response.json({ error: "Inzerát nenalezen" }, { status: 404 });
-  }
-
+  if (!item) return Response.json({ error: "Not found" }, { status: 404 });
   return Response.json(item);
 }
 
-// Změn stav inzerátu podle ID
-export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function PATCH(
+  req: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
   const { id } = await params;
-  const body = await request.json();
+  const body = await req.json();
 
   const updated = db
     .update(listing)
@@ -32,4 +33,14 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     .get();
 
   return Response.json(updated);
+}
+
+export async function DELETE(
+  _req: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const { id } = await params;
+
+  db.delete(listing).where(eq(listing.id, Number(id))).run();
+  return Response.json({ success: true });
 }

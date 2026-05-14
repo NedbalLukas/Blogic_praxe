@@ -8,6 +8,7 @@ import {
   Container,
   Divider,
   Group,
+  Modal,
   Select,
   SimpleGrid,
   Stack,
@@ -15,12 +16,12 @@ import {
   ThemeIcon,
   Title,
 } from "@mantine/core";
-import { IconAlertCircle, IconCash, IconCheck, IconMail, IconTag } from "@tabler/icons-react";
+import { useDisclosure } from "@mantine/hooks";
+import { IconAlertCircle, IconCash, IconCheck, IconMail, IconTag, IconTrash } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import type { Listing } from "@/db/schemas";
-import { Link } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 
-// Texty a barvy pro stavy inzerátu
 const STATUS_LABEL: Record<string, string> = {
   available: "Dostupné",
   reserved: "Rezervováno",
@@ -38,8 +39,10 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const [status, setStatus] = useState("");
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const [deleteOpened, { open: openDelete, close: closeDelete }] = useDisclosure(false);
+  const router = useRouter();
 
-  // Načti inzerát podle ID z URL
   useEffect(() => {
     params.then(({ id }) => {
       fetch(`/api/listings/${id}`)
@@ -55,7 +58,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     });
   }, [params]);
 
-  // Ulož nový stav inzerátu do databáze
   const handleStatusChange = async (newStatus: string | null) => {
     if (!newStatus || !item) return;
 
@@ -72,7 +74,22 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     }
   };
 
-  // Zobraz chybu pokud inzerát neexistuje
+  const handleDelete = async () => {
+    if (!item) return;
+    setDeleting(true);
+
+    const res = await fetch(`/api/listings/${item.id}`, {
+      method: "DELETE",
+    });
+
+    if (res.ok) {
+      router.push("/bazar");
+    } else {
+      setDeleting(false);
+      closeDelete();
+    }
+  };
+
   if (error || !item) {
     return (
       <Container size="md" mt={60}>
@@ -88,14 +105,77 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
   return (
     <Container size="md" mt={60} mb={60}>
+      <Modal
+        opened={deleteOpened}
+        onClose={closeDelete}
+        title={
+          <Group gap="xs">
+            <IconTrash size={20} color="red" />
+            <Text fw={700}>Smazat inzerát</Text>
+          </Group>
+        }
+        centered
+        radius="lg"
+      >
+        <Stack gap="md">
+          <Text size="sm">
+            Opravdu chcete smazat inzerát{" "}
+            <Text component="span" fw={700}>
+              „{item.title}"
+            </Text>
+            ? Tato akce je nevratná.
+          </Text>
+          <Group justify="flex-end" gap="sm">
+            <Button variant="default" radius="md" onClick={closeDelete} disabled={deleting}>
+              Zrušit
+            </Button>
+            <Button
+              color="red"
+              radius="md"
+              leftSection={<IconTrash size={16} />}
+              loading={deleting}
+              onClick={handleDelete}
+            >
+              Smazat inzerát
+            </Button>
+          </Group>
+        </Stack>
+      </Modal>
+
       <Stack gap="xl">
-        <Button component={Link} href="/bazar" variant="subtle" color="gray" w="fit-content">
-          ← Zpět na bazar
-        </Button>
+        <Group justify="space-between" align="center">
+          <Button component={Link} href="/bazar" variant="subtle" color="gray" w="fit-content">
+            ← Zpět na bazar
+          </Button>
+
+          <Group gap="sm" align="center">
+            <Select
+              value={status}
+              onChange={handleStatusChange}
+              radius="md"
+              size="sm"
+              w={160}
+              data={[
+                { value: "available", label: "Dostupné" },
+                { value: "reserved", label: "Rezervováno" },
+                { value: "sold", label: "Prodáno" },
+              ]}
+            />
+            <Button
+              color="red"
+              variant="light"
+              radius="md"
+              size="sm"
+              leftSection={<IconTrash size={16} />}
+              onClick={openDelete}
+            >
+              Smazat
+            </Button>
+          </Group>
+        </Group>
 
         <Card shadow="sm" padding="xl" radius="xl" withBorder>
           <Stack gap="lg">
-            {/* Stav a kategorie */}
             <Group justify="space-between">
               <Badge color={STATUS_COLOR[status]} variant="light" size="lg">
                 {STATUS_LABEL[status]}
@@ -105,7 +185,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               </Badge>
             </Group>
 
-            {/* Název a cena */}
             <Stack gap={4}>
               <Title order={1} fw={800}>
                 {item.title}
@@ -117,7 +196,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
             <Divider />
 
-            {/* Popis */}
             <Stack gap={4}>
               <Text fw={500} size="sm" c="dimmed">
                 POPIS
@@ -129,7 +207,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
             <Divider />
 
-            {/* Kontakt, kategorie, cena */}
             <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
               <Card withBorder radius="md" padding="md">
                 <Group gap="sm">
@@ -168,36 +245,13 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     <Text size="xs" c="dimmed">
                       Cena
                     </Text>
-                    <Text fw={500} c="#FF5500">
+                    <Text fw={500}>
                       {item.isFree ? "Zdarma" : `${item.price} Kč`}
                     </Text>
                   </Stack>
                 </Group>
               </Card>
             </SimpleGrid>
-
-            <Divider />
-
-            {/* Změna stavu inzerátu */}
-            <Stack gap="xs">
-              <Text fw={500}>Změnit stav inzerátu</Text>
-              <Select
-                value={status}
-                onChange={handleStatusChange}
-                radius="md"
-                size="md"
-                data={[
-                  { value: "available", label: "Dostupné" },
-                  { value: "reserved", label: "Rezervováno" },
-                  { value: "sold", label: "Prodáno" },
-                ]}
-              />
-              {saved && (
-                <Alert color="green" icon={<IconCheck size={16} />}>
-                  Stav byl úspěšně uložen.
-                </Alert>
-              )}
-            </Stack>
           </Stack>
         </Card>
       </Stack>

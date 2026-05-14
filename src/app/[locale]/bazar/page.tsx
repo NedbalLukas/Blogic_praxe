@@ -148,12 +148,6 @@ export default function Page() {
             </Card>
           ))}
         </SimpleGrid>
-
-        {filtered.length === 0 && (
-          <Text ta="center" c="dimmed" mt="xl" className="anim anim-3">
-            Žádné inzeráty odpovídající filtru.
-          </Text>
-        )}
       </Stack>
     </Container>
   );
