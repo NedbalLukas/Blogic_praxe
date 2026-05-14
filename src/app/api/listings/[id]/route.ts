@@ -1,11 +1,8 @@
+import { eq } from "drizzle-orm";
 import { db } from "@/db";
 import { listing } from "@/db/schemas";
-import { eq } from "drizzle-orm";
 
-export async function GET(
-  _req: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
 
   const item = db
@@ -18,10 +15,7 @@ export async function GET(
   return Response.json(item);
 }
 
-export async function PATCH(
-  req: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const body = await req.json();
 
@@ -35,12 +29,11 @@ export async function PATCH(
   return Response.json(updated);
 }
 
-export async function DELETE(
-  _req: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function DELETE(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
 
-  db.delete(listing).where(eq(listing.id, Number(id))).run();
+  db.delete(listing)
+    .where(eq(listing.id, Number(id)))
+    .run();
   return Response.json({ success: true });
 }

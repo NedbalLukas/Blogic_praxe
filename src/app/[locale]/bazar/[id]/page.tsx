@@ -245,9 +245,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     <Text size="xs" c="dimmed">
                       Cena
                     </Text>
-                    <Text fw={500}>
-                      {item.isFree ? "Zdarma" : `${item.price} Kč`}
-                    </Text>
+                    <Text fw={500}>{item.isFree ? "Zdarma" : `${item.price} Kč`}</Text>
                   </Stack>
                 </Group>
               </Card>
