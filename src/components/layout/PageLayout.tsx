@@ -1,18 +1,6 @@
 "use client";
 
-import {
-  Anchor,
-  AppShell,
-  Box,
-  Burger,
-  Button,
-  Container,
-  Divider,
-  Drawer,
-  Group,
-  Stack,
-  Text,
-} from "@mantine/core";
+import { Anchor, AppShell, Box, Burger, Button, Container, Divider, Drawer, Group, Stack, Text } from "@mantine/core";
 import { useDisclosure, useWindowScroll } from "@mantine/hooks";
 import type { PropsWithChildren } from "react";
 import { PageLogo } from "@/components/layout/PageLogo";
@@ -28,11 +16,7 @@ export function PageLayout({ children }: PropsWithChildren) {
   const isScrolled = scroll.y > 10;
 
   return (
-    <AppShell
-      header={{ height: HEADER_HEIGHT }}
-      padding="md"
-      withBorder={false}
-    >
+    <AppShell header={{ height: HEADER_HEIGHT }} padding="md" withBorder={false}>
       {/* Mobilní menu */}
       <Drawer
         opened={opened}
@@ -73,15 +57,7 @@ export function PageLayout({ children }: PropsWithChildren) {
             Bazar
           </Button>
           <Divider my="sm" />
-          <Button
-            component={Link}
-            href="/bazar/novy"
-            color="#FF5500"
-            onClick={close}
-            fullWidth
-            size="md"
-            radius="md"
-          >
+          <Button component={Link} href="/bazar/novy" color="#FF5500" onClick={close} fullWidth size="md" radius="md">
             + Nový inzerát
           </Button>
         </Stack>
@@ -92,12 +68,8 @@ export function PageLayout({ children }: PropsWithChildren) {
         px="md"
         style={{
           backdropFilter: "blur(12px)",
-          backgroundColor: isScrolled
-            ? "rgba(255, 255, 255, 0.85)"
-            : "rgba(255, 255, 255, 1)",
-          boxShadow: isScrolled
-            ? "0 1px 20px rgba(0,0,0,0.08)"
-            : "0 1px 0 #f0f0f0",
+          backgroundColor: isScrolled ? "rgba(255, 255, 255, 0.85)" : "rgba(255, 255, 255, 1)",
+          boxShadow: isScrolled ? "0 1px 20px rgba(0,0,0,0.08)" : "0 1px 0 #f0f0f0",
           transition: "box-shadow 0.25s ease, background-color 0.25s ease",
         }}
       >
@@ -140,13 +112,7 @@ export function PageLayout({ children }: PropsWithChildren) {
               </Button>
             </Group>
 
-            <Burger
-              opened={opened}
-              onClick={open}
-              hiddenFrom="sm"
-              color="#FF5500"
-              size="sm"
-            />
+            <Burger opened={opened} onClick={open} hiddenFrom="sm" color="#FF5500" size="sm" />
           </Group>
         </Container>
       </AppShell.Header>
@@ -160,18 +126,11 @@ export function PageLayout({ children }: PropsWithChildren) {
         {/* Patička */}
         <Box bg="#fafafa" mt="xl" style={{ borderTop: "1px solid #f0f0f0" }}>
           <Container size={BODY_MAX_WIDTH} px="md">
-            <Group
-              justify="space-between"
-              align="flex-start"
-              py="xl"
-              wrap="wrap"
-              gap="xl"
-            >
+            <Group justify="space-between" align="flex-start" py="xl" wrap="wrap" gap="xl">
               <Stack gap="xs" maw={300}>
                 <PageLogo />
                 <Text size="sm" c="dimmed" mt="xs" lh={1.6}>
-                  Interní bazar pro spolupracovníky Blogic. Nabídni věci
-                  k prodeji nebo k přenechání zdarma.
+                  Interní bazar pro spolupracovníky Blogic. Nabídni věci k prodeji nebo k přenechání zdarma.
                 </Text>
               </Stack>
 
