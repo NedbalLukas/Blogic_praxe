@@ -1,19 +1,6 @@
 "use client";
 
-import {
-  Button,
-  Container,
-  Group,
-  NumberInput,
-  Paper,
-  Select,
-  Stack,
-  Switch,
-  Text,
-  Textarea,
-  TextInput,
-  Title,
-} from "@mantine/core";
+import {Button,Container,Group,NumberInput,Paper,Select,Stack,Switch,Text,Textarea,TextInput,Title,} from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useRouter } from "@/i18n/navigation";
 

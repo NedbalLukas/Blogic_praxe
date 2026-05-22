@@ -1,21 +1,6 @@
 "use client";
 
-import {
-  Alert,
-  Badge,
-  Button,
-  Card,
-  Container,
-  Divider,
-  Group,
-  Modal,
-  Select,
-  SimpleGrid,
-  Stack,
-  Text,
-  ThemeIcon,
-  Title,
-} from "@mantine/core";
+import {Alert,Badge,Button,Card,Container,Divider,Group,Modal,Select,SimpleGrid,Stack,Text,ThemeIcon,Title,} from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconAlertCircle, IconCash, IconCheck, IconMail, IconTag, IconTrash } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
